@@ -12,5 +12,6 @@
 
 * set wallpapers path
 * set monitors list
+* start script
 
 ###### Attention! You need have subfolders in path
