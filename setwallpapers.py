@@ -1,7 +1,8 @@
 #!/usr/bin/python
-from os import listdir, system
+from os import listdir, getenv
 from os.path import isfile, join, isdir
 import random
+import subprocess
 
 ######################################
 ##############SETTING#################
@@ -50,8 +51,17 @@ def set_wallpapers():
         feh_wallpapers.append(get_wallpaper_from_path(feh_wallpapers, folder))
     print(feh_wallpapers)
 
-    print(f"feh --{feh_type} {' '.join(feh_wallpapers)}")
-    system(f"feh --{feh_type} {' '.join(feh_wallpapers)}")
+    command = f"feh --{feh_type} {' '.join(feh_wallpapers)}"
+
+    if getenv("CRONTAB") == 'true':
+        command = 'export DISPLAY=:0; ' + command
+
+    print(command)
+    result = subprocess.check_output(
+        [command],
+        shell=True
+    )
+    print(result)
 
 
 def get_wallpaper_from_path(wallpapers_list, path):
